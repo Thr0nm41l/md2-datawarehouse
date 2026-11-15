@@ -1,0 +1,16 @@
+# Exemple de profil dbt : copier ce fichier dans ~/.dbt/profiles.yml, adapter
+# l'hôte et l'utilisateur, puis exporter DBT_POSTGRES_PASSWORD.
+superstore:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: "{{ env_var('DBT_POSTGRES_PASSWORD') }}"
+      dbname: superstore_db
+      # Schéma par défaut ; les modèles SILVER et GOLD le remplacent (cf.
+      # macros/generate_schema_name.sql).
+      schema: dbt_dev
+      threads: 4

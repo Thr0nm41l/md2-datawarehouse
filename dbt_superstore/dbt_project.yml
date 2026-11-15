@@ -1,0 +1,31 @@
+# Projet dbt Core : entrepôt de données Superstore (RAW -> SILVER -> GOLD).
+name: superstore
+version: "1.0.0"
+config-version: 2
+
+# Profil de connexion PostgreSQL, défini dans ~/.dbt/profiles.yml (modèle :
+# profiles.example.yml).
+profile: superstore
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+clean-targets:
+  - target
+  - dbt_packages
+  - logs
+
+models:
+  superstore:
+    # Les descriptions YAML sont recopiées en commentaires PostgreSQL
+    # (visibles dans psql avec \d+ et dans les outils SQL).
+    +persist_docs:
+      relation: true
+      columns: true
+    silver:
+      +schema: silver
+      +materialized: table
+    gold:
+      +schema: gold
+      +materialized: table

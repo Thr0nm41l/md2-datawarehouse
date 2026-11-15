@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: agg_sales_by_region
+    description: Chiffre d'affaires, bénéfice et nombre de commandes par région.
+    columns:
+      - name: region
+        description: Région commerciale.
+        data_tests:
+          - not_null
+          - unique
+      - name: total_sales
+        description: Chiffre d'affaires total (somme de sales).
+        data_tests:
+          - not_null
+      - name: total_profit
+        description: Bénéfice total (somme de profit).
+        data_tests:
+          - not_null
+      - name: nb_orders
+        description: Nombre de commandes distinctes.
+        data_tests:
+          - strictement_positif
+
+  - name: agg_sales_by_category
+    description: Chiffre d'affaires, bénéfice et quantité vendue par catégorie.
+    columns:
+      - name: category
+        description: Catégorie de produit.
+        data_tests:
+          - not_null
+          - unique
+      - name: total_sales
+        description: Chiffre d'affaires total (somme de sales).
+        data_tests:
+          - not_null
+      - name: total_profit
+        description: Bénéfice total (somme de profit).
+        data_tests:
+          - not_null
+      - name: total_quantity
+        description: Quantité totale vendue.
+        data_tests:
+          - strictement_positif
+
+  - name: agg_monthly_sales
+    description: Chiffre d'affaires, bénéfice et nombre de commandes par mois.
+    columns:
+      - name: order_month
+        description: Mois de commande (premier jour du mois).
+        data_tests:
+          - not_null
+          - unique
+      - name: total_sales
+        description: Chiffre d'affaires total (somme de sales).
+        data_tests:
+          - not_null
+      - name: total_profit
+        description: Bénéfice total (somme de profit).
+        data_tests:
+          - not_null
+      - name: nb_orders
+        description: Nombre de commandes distinctes.
+        data_tests:
+          - strictement_positif

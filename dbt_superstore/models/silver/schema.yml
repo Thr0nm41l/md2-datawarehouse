@@ -1,0 +1,96 @@
+version: 2
+
+models:
+  - name: curation_sales
+    description: >
+      Ventes Superstore nettoyées : colonnes en snake_case, dates et montants
+      typés, valeurs nulles traitées, doublons supprimés et délai de livraison
+      calculé. Une ligne par ligne de commande.
+    columns:
+      - name: row_id
+        description: Identifiant de la ligne dans le fichier source.
+        data_tests:
+          # Test 1 : row_id n'est pas NULL
+          - not_null
+          # Test 2 : row_id est unique
+          - unique
+      - name: order_id
+        description: Identifiant de la commande (plusieurs lignes par commande).
+        data_tests:
+          # Test 3 : order_id n'est pas NULL
+          - not_null
+      - name: order_date
+        description: Date de commande.
+        data_tests:
+          - not_null
+      - name: ship_date
+        description: Date d'expédition.
+        data_tests:
+          - not_null
+      - name: shipping_delay_days
+        description: Délai de livraison en jours (ship_date - order_date).
+        data_tests:
+          # Une commande ne peut pas être expédiée avant d'avoir été passée.
+          - entre_bornes:
+              min_value: 0
+              max_value: 365
+      - name: ship_mode
+        description: Mode de livraison.
+      - name: customer_id
+        description: Identifiant du client.
+        data_tests:
+          - not_null
+      - name: customer_name
+        description: Nom du client.
+      - name: segment
+        description: Segment du client.
+        data_tests:
+          - accepted_values:
+              values: ['Consumer', 'Corporate', 'Home Office']
+      - name: country
+        description: Pays.
+      - name: city
+        description: Ville.
+      - name: state
+        description: État américain.
+      - name: postal_code
+        description: Code postal sur 5 caractères (zéro initial restauré).
+      - name: region
+        description: Région commerciale.
+        data_tests:
+          - accepted_values:
+              values: ['Central', 'East', 'South', 'West']
+      - name: product_id
+        description: Identifiant du produit.
+      - name: category
+        description: Catégorie du produit.
+        data_tests:
+          - accepted_values:
+              values: ['Furniture', 'Office Supplies', 'Technology']
+      - name: sub_category
+        description: Sous-catégorie du produit.
+      - name: product_name
+        description: Nom du produit.
+      - name: sales
+        description: Montant des ventes (chiffre d'affaires de la ligne).
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Quantité vendue.
+        data_tests:
+          - not_null
+          # Test 4 : quantity est strictement positive
+          - strictement_positif
+      - name: discount
+        description: Remise appliquée, en fraction du prix (0.2 = 20 %).
+        data_tests:
+          # Test 5 : discount est compris entre 0 et 1
+          - entre_bornes:
+              min_value: 0
+              max_value: 1
+      - name: profit
+        description: Bénéfice (positif) ou perte (négatif) de la ligne.
+        data_tests:
+          - not_null
+      - name: _loaded_at
+        description: Horodatage du chargement dans la couche RAW.

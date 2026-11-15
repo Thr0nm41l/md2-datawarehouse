@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Couche RAW, chargée par sql/creation_et_chargement_raw.sql.
+    database: superstore_db
+    schema: raw
+    tables:
+      - name: sales
+        description: >
+          Fichier Superstore Sales (Kaggle) chargé tel quel : noms de colonnes
+          d'origine et toutes les valeurs en texte.
+        columns:
+          - name: Row ID
+            description: Identifiant de la ligne dans le fichier source.
+            quote: true
+            data_tests:
+              - not_null
